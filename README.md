@@ -70,7 +70,7 @@ contents are still not visible on the public widget, so totals are estimates.
 
 ```bash
 pip install -r requirements.txt
-cp .env.example .env            # optional; defaults work for dragsim.tebex.io
+cp .env.example .env            # set STORE_URL to your store
 python -m dragtrack             # open http://localhost:8787
 ```
 

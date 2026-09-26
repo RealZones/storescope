@@ -26,6 +26,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--once", action="store_true", help="poll one time, print what was found, and exit")
     parser.add_argument("--catalog", action="store_true", help="refresh the product catalog and exit")
     parser.add_argument("--no-web", action="store_true", help="run the tracker only, without the dashboard")
+    parser.add_argument("--no-poll", action="store_true",
+                        help="serve the dashboard over the existing database without scraping (see dragtrack.demo)")
     parser.add_argument("--host", default=config.HOST)
     parser.add_argument("--port", type=int, default=config.PORT)
     args = parser.parse_args(argv)
@@ -59,7 +61,7 @@ def main(argv: list[str] | None = None) -> int:
 
     from .api import build_app
 
-    app = build_app()
+    app = build_app(run_tracker=not args.no_poll)
     uvicorn.run(app, host=args.host, port=args.port, log_config=None, access_log=False)
     return 0
 

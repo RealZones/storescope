@@ -54,8 +54,12 @@ def _bool(name: str, default: bool) -> bool:
 VERSION = "1.2.0"
 
 # --- Store -----------------------------------------------------------------
-STORE_URL = os.environ.get("STORE_URL", "https://dragsim.tebex.io").rstrip("/")
-STORE_NAME = os.environ.get("STORE_NAME", "DragSim")
+# No default on purpose. A store baked in here is a store every fresh clone
+# starts polling without being asked, and it names one shop's revenue as this
+# tool's subject. Point it at your own: STORE_URL=https://yourstore.tebex.io
+STORE_URL = os.environ.get("STORE_URL", "").rstrip("/")
+STORE_NAME = os.environ.get("STORE_NAME", "") or (
+    STORE_URL.split("//")[-1].split(".")[0].title() if STORE_URL else "Store")
 CURRENCY = os.environ.get("CURRENCY", "USD")
 
 # --- Polling ---------------------------------------------------------------
