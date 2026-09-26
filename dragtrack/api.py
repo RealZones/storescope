@@ -142,8 +142,8 @@ def build_app(db: Database | None = None, tracker: Tracker | None = None, run_tr
             },
             "products": db.products(),
             "players": privacy.scrub_all(db.players()),
-            "health": tracker.health(),
-            "events": db.events(60),
+            "health": privacy.scrub_health(tracker.health()),
+            "events": privacy.scrub_events(db.events(60)),
             "purchase_count": db.purchase_count(),
             "server_time": utcnow(),
         }
@@ -167,16 +167,18 @@ def build_app(db: Database | None = None, tracker: Tracker | None = None, run_tr
 
     @app.get("/api/health")
     async def health():
-        return tracker.health()
+        return privacy.scrub_health(tracker.health())
 
     @app.get("/api/events")
     async def events(limit: int = 100):
-        return {"events": db.events(max(1, min(limit, 1000)))}
+        return {"events": privacy.scrub_events(db.events(max(1, min(limit, 1000))))}
 
     @app.get("/api/logs")
     async def logs(limit: int = 200):
         records = list(LOG_BUFFER.records)[-max(1, min(limit, 400)):]
-        return {"logs": records}
+        # Log lines are prose, so this substitutes known names rather than swapping
+        # fields; see privacy.scrub_logs for why that is acceptable only here.
+        return {"logs": privacy.scrub_logs(records, db.players() if config.ANONYMIZE else None)}
 
     @app.post("/api/purchases/{purchase_id}/resolve")
     async def resolve_purchase(purchase_id: int, body: ResolveBody):

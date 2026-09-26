@@ -5,3 +5,11 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .claude/
+
+# Screenshot/scratch instance: holds a real database, real names and all.
+shotdata/
+
+# CV drafts. These carry a phone number and a home address; they live here for
+# convenience but must never be part of a public repo.
+cv.md
+cv.html

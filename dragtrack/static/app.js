@@ -1,4 +1,4 @@
-/* DragTrack dashboard */
+/* StoreScope dashboard */
 (() => {
 "use strict";
 
@@ -159,7 +159,7 @@ async function loadAll() {
   state.health = boot.health; state.events = boot.events;
   $("#version").textContent = "v" + boot.config.version;
   $("#signout").hidden = !boot.config.auth;
-  document.title = `DragTrack · ${boot.config.store_name}`;
+  document.title = `StoreScope · ${boot.config.store_name}`;
   let since = 0;
   for (;;) {
     const r = await api(`/api/purchases?since_id=${since}&limit=5000`);
@@ -683,7 +683,7 @@ function renderStatus(el) {
           <span class="k">Poll interval</span><span class="v">${h.poll_interval}s · catalog every ${Math.round(h.catalog_interval / 60)} min</span>
           <span class="k">TLS profile</span><span class="v">${esc(h.profile)}</span>
           <span class="k">Uptime</span><span class="v">${fmtDur(h.uptime_s)} · since ${fmtFull(parseTs(h.started_at))}</span>
-          <span class="k">Version</span><span class="v">DragTrack ${esc(h.version)}</span>
+          <span class="k">Version</span><span class="v">StoreScope ${esc(h.version)}</span>
           <span class="k">Database</span><span class="v">${bytes(h.db_size)} · ${num(h.counts.purchases)} purchases · ${num(h.counts.players)} players · ${num(h.counts.products)} products</span>
           <span class="k">Widget clock</span><span class="v">UTC${h.widget_tz_offset_min >= 0 ? "+" : "−"}${Math.abs(h.widget_tz_offset_min / 60)}h <span class="muted">(${esc(h.widget_tz_source)}${h.widget_clock_samples ? ` · ${plural(h.widget_clock_samples, "sample")}, median lag ${h.widget_clock_offset_min} min` : ""})</span></span>
           <span class="k">Discord</span><span class="v">${h.discord ? `<span class="tag good">webhook on</span>` : `<span class="tag dim">off</span>`}</span>
