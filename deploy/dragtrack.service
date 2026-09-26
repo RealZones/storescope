@@ -1,0 +1,25 @@
+# systemd unit — copy to /etc/systemd/system/dragtrack.service
+# then: sudo systemctl daemon-reload && sudo systemctl enable --now dragtrack
+[Unit]
+Description=DragTrack — Tebex store purchase tracker + dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=dragtrack
+Group=dragtrack
+WorkingDirectory=/opt/dragtrack
+EnvironmentFile=-/opt/dragtrack/.env
+ExecStart=/opt/dragtrack/.venv/bin/python -m dragtrack
+Restart=always
+RestartSec=5
+# hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/dragtrack/data
+
+[Install]
+WantedBy=multi-user.target

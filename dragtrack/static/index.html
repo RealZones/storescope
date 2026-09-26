@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DragTrack</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%239b5de5'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Pixelify+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css?v=1.2.0">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="dot"></span> DragTrack <small id="version"></small></div>
+    <div class="nav-label">Pages</div>
+    <nav class="nav" id="nav">
+      <button data-page="overview" class="active">Overview</button>
+      <button data-page="feed">Live Feed <span class="badge" id="badge-feed"></span></button>
+      <button data-page="players">Players <span class="badge" id="badge-players"></span></button>
+      <button data-page="products">Products <span class="badge" id="badge-products"></span></button>
+      <button data-page="analytics">Analytics</button>
+      <button data-page="status">Status <span class="badge" id="badge-status"></span></button>
+    </nav>
+    <div class="spacer"></div>
+    <div class="theme-box">
+      <div class="nav-label" style="padding:0 0 4px">Theme</div>
+      <div class="theme-dots" id="theme-dots"></div>
+      <div class="theme-name" id="theme-name">Midnight Violet</div>
+      <a class="signout" id="signout" href="/logout" hidden>Sign out</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <h1 id="page-title">Overview</h1>
+      <span class="sub" id="page-sub"></span>
+      <span class="grow"></span>
+      <span class="live-pill" id="live-pill"><i></i><span id="live-text">connecting</span></span>
+      <input class="search" id="search" type="search" placeholder="Search players, products…" autocomplete="off">
+    </header>
+    <div class="content" id="content">
+      <div class="loading" id="loading">Loading…</div>
+      <section class="page" id="page-overview"></section>
+      <section class="page" id="page-feed"></section>
+      <section class="page" id="page-players"></section>
+      <section class="page" id="page-products"></section>
+      <section class="page" id="page-analytics"></section>
+      <section class="page" id="page-status"></section>
+    </div>
+  </main>
+</div>
+
+<div class="tip" id="tip"></div>
+<div class="toasts" id="toasts"></div>
+<div class="modal-bg" id="modal-bg"><div class="modal-wrap"><div class="modal" id="modal"></div></div></div>
+
+<script src="/static/app.js?v=1.2.0"></script>
+</body>
+</html>

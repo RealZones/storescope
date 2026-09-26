@@ -1,0 +1,5 @@
+# Example reverse proxy with automatic HTTPS (https://caddyserver.com).
+# Replace the hostname, point its DNS at the VPS, then: sudo systemctl reload caddy
+track.example.com {
+    reverse_proxy 127.0.0.1:8787
+}
