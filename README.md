@@ -12,6 +12,12 @@ python -m dragtrack          # tracker + dashboard on http://0.0.0.0:8787
 Store owners get their own numbers without waiting for Tebex reports; the widget is
 public, so it works against any store without credentials.
 
+![The overview page](docs/img/overview.png)
+
+<sub>Every figure in this README's screenshots is generated — see
+[Try it without a store](#try-it-without-a-store). Publishing a real shop's revenue to
+illustrate a side project is not mine to do.</sub>
+
 ### The three problems worth reading the code for
 
 **Cloudflare.** The storefront sits behind a managed challenge that blocks `requests`
@@ -80,8 +86,30 @@ Other modes:
 python -m dragtrack --once      # poll one time and exit (good for testing)
 python -m dragtrack --catalog   # refresh the product catalog and exit
 python -m dragtrack --no-web    # tracker only
+python -m dragtrack --no-poll   # serve an existing database, don't scrape
 python -m pytest tests -q       # run the tests
 ```
+
+## Try it without a store
+
+You do not need a storefront, or a month of waiting for the charts to fill in:
+
+```bash
+python -m dragtrack.demo                                   # writes demo/demo.db
+DB_PATH=demo/demo.db STORE_NAME=Frostpeak ANONYMIZE=0   python -m dragtrack --no-poll                            # http://localhost:8787
+```
+
+`ANONYMIZE=0` because the buyers here are invented, so there is nobody to protect and the
+handles would only hide the thing being demonstrated. Leave it on for a real store — it is
+on by default for exactly that reason.
+
+The seeder invents the store, the products, the buyers and the uuids. The *shape* is
+modelled on a real storefront, because a demo that looks nothing like production is not
+much of a demo — lumpy revenue with weekends and one sale weekend, a long tail where about
+half of buyers buy exactly once, a couple of SKUs that collide when the feed truncates
+them at 20 characters, and a poll history with a short 403 patch in it. The generator is
+seeded, but the window is anchored to today, so your figures will not match the
+screenshots above exactly.
 
 ## Privacy
 
@@ -148,6 +176,34 @@ proxy with automatic certificates. Or keep the port firewalled and reach it over
 
 The dashboard polls the API every 10 s; new purchases pop up as toasts. Theme dots at the
 bottom-left switch the accent colour (remembered per browser). `/` focuses search.
+
+<details>
+<summary><b>Screenshots of the other pages</b></summary>
+
+**Analytics** — cumulative revenue, weekly revenue by category, and a weekday × hour
+heatmap of when people actually buy.
+
+![Analytics](docs/img/analytics.png)
+
+**Live Feed** — every purchase, filterable, with the resolve/edit/delete workflow for
+rows the truncation left ambiguous.
+
+![Live feed](docs/img/feed.png)
+
+**Players** — per-buyer totals, favourite product and category mix.
+
+![Players](docs/img/players.png)
+
+**Products** — the catalog with sold counts, revenue share and price-change history.
+
+![Products](docs/img/products.png)
+
+**Status** — poll latency, success rate, Cloudflare challenge detection, the last widget
+snapshot and live logs. The gap in the latency chart is a 403 the scraper rotated past.
+
+![Status](docs/img/status.png)
+
+</details>
 
 ## API
 
